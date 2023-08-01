@@ -12,7 +12,7 @@ class Dir:
         self.last_modified = os.path.getmtime(self.path)
         self.created = os.path.getctime(self.path)
         self.owner = getpwuid(os.stat(self.path).st_uid).pw_name
-        self.size = os.path.getsize(self.path)
+        self.size = 0
         self.files_count = 0
         self.files = []
         self.dirs = {}
