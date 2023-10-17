@@ -17,6 +17,7 @@ class Dir:
         self.files = []
         self.dirs = {}
 
+
     def __str__(self):
         return self.name
 

@@ -15,6 +15,7 @@ class File:
         self.last_modified = os.path.getmtime(self.path)
         self.created = os.path.getctime(self.path)
         self.owner = getpwuid(os.stat(self.path).st_uid).pw_name
+        self.files_count = None
 
     def __str__(self):
         return self.name

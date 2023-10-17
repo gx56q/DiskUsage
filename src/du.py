@@ -13,7 +13,7 @@ class DU:
     def get_contents(self):
         print(self.parent_dir, self.parent_dir.size)
         for el in self.contents:
-            print(el, el.size)
+            print(el, el.size, el.files_count)
 
     def scan_directory(self, bar):
         def get_dir_contents(parent_dir, dir_path, progress_bar):
@@ -44,11 +44,13 @@ class DU:
                               key=lambda x: x.size, reverse=True)
         self.contents = sorted_dirs + sorted_files
 
+    # TODO: change to sort method that takes a key function
+
     def sort_by_file_count(self):
         sorted_dirs = sorted(self.parent_dir.dirs.values(),
                              key=lambda x: x.files_count, reverse=True)
         sorted_files = sorted(self.parent_dir.files,
-                              key=lambda x: x.size, reverse=True)
+                              key=lambda x: x.name, reverse=True)
         self.contents = sorted_dirs + sorted_files
 
     def sort_by_file_extension(self):

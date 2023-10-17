@@ -17,7 +17,6 @@ class Main:
         main_walk = os.walk(self.args.path)
         num_files = sum([len(files) for r, d, files in main_walk])
         num_dirs = len([d for r, d, files in main_walk])
-        print(f'Number of directories: {num_dirs}')
         num_files += num_dirs
         with alive_bar(num_files) as bar:
             self.du.scan_directory(bar)
