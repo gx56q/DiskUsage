@@ -17,7 +17,6 @@ class Dir:
         self.files = []
         self.dirs = {}
 
-
     def __str__(self):
         return self.name
 
@@ -27,6 +26,11 @@ class Dir:
     def get_files_count(self):
         for d in self.dirs.values():
             self.files_count += d.get_files_count()
+        return self.files_count
+
+    def get_dirs_count(self):
+        for d in self.dirs.values():
+            self.files_count += d.get_dirs_count()
         return self.files_count
 
     def add_file(self, file_to_add):

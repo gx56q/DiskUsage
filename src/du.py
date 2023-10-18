@@ -1,5 +1,6 @@
 import os
 import dir
+from datetime import datetime as dt
 
 
 class DU:
@@ -11,9 +12,35 @@ class DU:
         self.contents = []
 
     def get_contents(self):
-        print(self.parent_dir, self.parent_dir.size)
+        timestamp_format = '%d-%m-%Y %H:%M:%S'
+        print(f'Contents of {self.main_dir_path}')
+        print(
+            f'{"Name":<30}'
+            f'{"Size":<15}'
+            f'{"Files count":<15}'
+            f'{"Level":<10}'
+            f'{"Last modified":<30}'
+            f'{"Created":<30}'
+            f'{"Owner":<10}')
+        print('-' * 140)
+        print(
+            f'{self.parent_dir.name:<30}'
+            f'{self.parent_dir.size:<15}'
+            f'{self.parent_dir.files_count:<15}'
+            f'{self.parent_dir.level:<10}'
+            f'{dt.fromtimestamp(self.parent_dir.last_modified).strftime(timestamp_format):<30}'
+            f'{dt.fromtimestamp(self.parent_dir.created).strftime(timestamp_format):<30}'
+            f'{self.parent_dir.owner:<10}')
+        print('-' * 140)
         for el in self.contents:
-            print(el, el.size, el.files_count)
+            print(
+                f'{el.name:<30}{el.size:<15}'
+                f'{el.files_count if el.files_count else "-":<15}'
+                f'{el.level:<10}'
+                f'{dt.fromtimestamp(el.last_modified).strftime(timestamp_format):<30}'
+                f'{dt.fromtimestamp(el.created).strftime(timestamp_format):<30}'
+                f'{el.owner:<10}')
+        print('-' * 140)
 
     def scan_directory(self, bar):
         def get_dir_contents(parent_dir, dir_path, progress_bar):
