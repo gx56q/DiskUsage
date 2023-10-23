@@ -74,11 +74,13 @@ class DU:
             'extension': lambda x: x.extension if hasattr(x,
                                                           'extension') else
             'Directory',
-            'date': lambda x: dt.fromtimestamp(x.last_modified).strftime(
-                '%d-%m-%Y'),
-            'size_or_files_count':
-                lambda x: x.files_count if hasattr(x, 'files_count')
-                else x.size,
+            'date_modified':
+                lambda x: dt.fromtimestamp(x.last_modified).strftime(
+                    '%d-%m-%Y'),
+            'date_created':
+                lambda x: dt.fromtimestamp(x.created).strftime('%d-%m-%Y'),
+            'size': lambda x: x.size,
+            'file_count': lambda x: x.files_count,
             'owner': lambda x: x.owner,
             'nesting': lambda x: x.level
         }
