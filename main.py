@@ -1,15 +1,16 @@
 import argparse
 import curses
-
-import du
 import os
-import ui
+import src.du as du
+import src.ui as ui
 from alive_progress import alive_bar
 
 
 def parse_args():
+    current_dir = os.getcwd()
     parser = argparse.ArgumentParser(description='Disk Usage')
-    parser.add_argument('path', type=str, help='Path to directory')
+    parser.add_argument('path', type=str, help='Path to directory',
+                        default=current_dir, nargs='?')
     parser.add_argument('-f', '--filter', dest="filter",
                         choices=['extension', 'size', 'date', 'owner',
                                  'nesting'],
@@ -47,7 +48,7 @@ class Main:
         filter_by = None
         if self.args.filter and self.args.value:
             filter_by = (self.args.filter, self.args.value)
-        disk_usage.print_contents(sort_by='file_count',
+        disk_usage.print_contents(sort_by='name',
                                   group_by=self.args.group,
                                   filter_by=filter_by)
 

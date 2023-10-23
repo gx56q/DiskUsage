@@ -1,5 +1,5 @@
 import os
-import dir
+from src import dir
 from datetime import datetime as dt
 from collections import defaultdict
 
@@ -39,8 +39,8 @@ class DU:
                 dt.strptime(value, '%d-%m-%Y').timestamp()),
             'date_created': lambda x: int(x.created) == int(
                 dt.strptime(value, '%d-%m-%Y').timestamp()),
-            'extension': lambda x: hasattr(x,
-                                           'extension') and x.extension == value
+            'extension':
+                lambda x: hasattr(x, 'extension') and x.extension == value
         }
         self.contents = [el for el in self.contents if filters[criterion](el)]
 
@@ -76,8 +76,9 @@ class DU:
             'Directory',
             'date': lambda x: dt.fromtimestamp(x.last_modified).strftime(
                 '%d-%m-%Y'),
-            'size_or_files_count': lambda x: x.files_count if hasattr(x,
-                                                                      'files_count') else x.size,
+            'size_or_files_count':
+                lambda x: x.files_count if hasattr(x, 'files_count')
+                else x.size,
             'owner': lambda x: x.owner,
             'nesting': lambda x: x.level
         }
@@ -118,14 +119,7 @@ class DU:
             f'{"Created":<25}'
             f'{"Owner":<10}')
         print('-' * 130)
-        print(
-            f'{self.parent_dir.name:<30}'
-            f'{self.parent_dir.size:<15}'
-            f'{self.parent_dir.files_count:<15}'
-            f'{self.parent_dir.level:<10}'
-            f'{dt.fromtimestamp(self.parent_dir.last_modified).strftime(ts_format):<25}'
-            f'{dt.fromtimestamp(self.parent_dir.created).strftime(ts_format):<25}'
-            f'{self.parent_dir.owner:<10}')
+        print_element(self.parent_dir)
         print('-' * 130)
         if group_by:
             grouped_contents = self.get_group_by(group_by)
@@ -149,7 +143,6 @@ class DU:
             try:
                 list_dir = os.listdir(dir_path)
             except PermissionError:
-                print(f'Permission denied: {dir_path}')
                 return
             for file_to_add in list_dir:
                 file_to_add = os.path.join(dir_path, file_to_add)

@@ -1,7 +1,6 @@
-# TODO: change to from os import path, stat
 import os
 from pwd import getpwuid
-import file
+from src import file
 
 
 class Dir:

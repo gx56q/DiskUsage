@@ -2,8 +2,8 @@ import os
 import curses
 import platform
 import subprocess
-from datetime import datetime as dt
 from src import du
+from datetime import datetime as dt
 
 ts_format = "%Y-%m-%d %H:%M:%S"
 
