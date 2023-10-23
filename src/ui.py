@@ -110,7 +110,7 @@ class UI:
         else:
             entries_to_display = self.current_du.contents
 
-        max_lines = curses.LINES - 7
+        max_lines = curses.LINES - 8
         start_index = self.selection - max_lines + 1
         if start_index < 0:
             start_index = 0
@@ -131,6 +131,7 @@ class UI:
 
         self.stdscr.refresh()
         self.display_options()
+        self.display_usage()
 
     def navigate(self):
         while True:
@@ -141,16 +142,19 @@ class UI:
 
             elif key == ord('F') or key == ord('f'):
                 self.stdscr.addstr(curses.LINES - 1, 10, "Enter filter type: ")
+                self.stdscr.clrtoeol()
                 curses.echo()
                 filter_type = self.stdscr.getstr().decode("utf-8")
                 curses.noecho()
                 if filter_type not in self.valid_types:
                     self.stdscr.addstr(curses.LINES - 1, 10,
                                        "Invalid filter type!")
+                    self.stdscr.clrtoeol()
                     self.stdscr.refresh()
                     continue
                 self.stdscr.addstr(curses.LINES - 1, 10,
                                    f"Enter value for {filter_type}: ")
+                self.stdscr.clrtoeol()
                 curses.echo()
                 filter_value = self.stdscr.getstr().decode("utf-8")
                 curses.noecho()
@@ -161,12 +165,14 @@ class UI:
                 self.selection = 0
                 self.stdscr.addstr(curses.LINES - 1, 10,
                                    "Enter group by type: ")
+                self.stdscr.clrtoeol()
                 curses.echo()
                 group_type = self.stdscr.getstr().decode("utf-8")
                 curses.noecho()
                 if group_type not in self.valid_types:
                     self.stdscr.addstr(curses.LINES - 1, 10,
                                        "Invalid group type!")
+                    self.stdscr.clrtoeol()
                     self.stdscr.refresh()
                     continue
                 self.current_du.get_group_by(group_type)
@@ -236,6 +242,21 @@ class UI:
             self.stdscr.addstr(y_position, 0, f"{option} {values}",
                                curses.A_BOLD)
             y_position += 1
+        self.stdscr.refresh()
+
+    def display_usage(self):
+        usage_options = [
+            "q: Quit",
+            "↑/↓: Scroll",
+            "→: Open directory",
+            "←: Go up one directory",
+            "R: Refresh"
+        ]
+        y_position = curses.LINES - 4
+        x_position = 0
+        for option in usage_options:
+            self.stdscr.addstr(y_position, x_position, option, curses.A_DIM)
+            x_position += len(option) + 2
         self.stdscr.refresh()
 
 
