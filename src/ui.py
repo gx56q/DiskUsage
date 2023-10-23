@@ -110,7 +110,7 @@ class UI:
         else:
             entries_to_display = self.current_du.contents
 
-        max_lines = curses.LINES - 7
+        max_lines = curses.LINES - 8
         start_index = self.selection - max_lines + 1
         if start_index < 0:
             start_index = 0
