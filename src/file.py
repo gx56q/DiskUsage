@@ -1,4 +1,3 @@
-# TODO: change to from os import path, stat
 import os
 from pwd import getpwuid
 
