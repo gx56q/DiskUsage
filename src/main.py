@@ -33,23 +33,23 @@ class Main:
 
         if self.args.interactive:
             curses.wrapper(ui.main)
-            return
         else:
             self.run_cli()
 
     def run_cli(self):
-        self.du = du.DU(self.args.path)
+        disk_usage = du.DU(self.args.path, is_interactive=False)
         main_walk = os.walk(self.args.path)
         num_files = sum([len(files) for r, d, files in main_walk])
         num_dirs = len([d for r, d, files in main_walk])
         num_files += num_dirs
         with alive_bar(num_files) as bar:
-            self.du.scan_directory(bar)
+            disk_usage.scan_directory(bar)
         filter_by = None
         if self.args.filter and self.args.value:
             filter_by = (self.args.filter, self.args.value)
-        self.du.get_contents_print(sort_by='file_count', group_by=self.args.group,
-                             filter_by=filter_by)
+        disk_usage.print_contents(sort_by='file_count',
+                                  group_by=self.args.group,
+                                  filter_by=filter_by)
 
 
 if __name__ == '__main__':
