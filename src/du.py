@@ -18,6 +18,7 @@ def print_element(el):
 
 class DU:
     def __init__(self, path):
+        self.grouped_contents = None
         self.main_dir_path = os.path.abspath(path)
         if not os.path.isdir(self.main_dir_path):
             raise ValueError(f'{self.main_dir_path} is not a directory')
@@ -49,6 +50,7 @@ class DU:
 
     def sort_by(self, criterion):
         sort_options = {
+            'name': (lambda x: x.name, lambda x: x.name),
             'file_size': (lambda x: x.size, lambda x: x.size),
             'file_count': (lambda x: x.files_count, lambda x: x.name),
             'file_extension': (lambda x: x.size, lambda x: x.extension),
@@ -84,7 +86,22 @@ class DU:
             grouped_contents = dict(sorted(grouped_contents.items()))
             return grouped_contents
 
-    def get_contents(self, sort_by=None, group_by=None, filter_by=None):
+    def update_contents(self, filter_by=None):
+        self.sort_by('name')
+        if filter_by:
+            self.filter_contents(*filter_by)
+
+    def get_contents(self, sort_by='name', group_by=None, filter_by=None):
+        if sort_by:
+            self.sort_by(sort_by)
+        if filter_by:
+            self.filter_contents(*filter_by)
+        if group_by:
+            grouped_contents = self.group_by(group_by)
+            return grouped_contents
+        return self.contents
+
+    def get_contents_print(self, sort_by=None, group_by=None, filter_by=None):
         if sort_by:
             self.sort_by(sort_by)
         if filter_by:
@@ -132,11 +149,11 @@ class DU:
                 file_to_add = os.path.abspath(file_to_add)
                 if os.path.isfile(file_to_add):
                     parent_dir.add_file(file_to_add)
-                    progress_bar()
+                    progress_bar.update()
                 elif os.path.isdir(file_to_add):
                     parent_dir.add_dir(file_to_add)
                     get_dir_contents(parent_dir.dirs[file_to_add], file_to_add,
                                      progress_bar)
                     parent_dir.size += parent_dir.dirs[file_to_add].size
-
         get_dir_contents(self.parent_dir, self.main_dir_path, bar)
+        self.update_contents()

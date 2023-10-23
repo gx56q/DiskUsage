@@ -1,6 +1,9 @@
 import argparse
+import curses
+
 import du
 import os
+import ui
 from alive_progress import alive_bar
 
 
@@ -19,12 +22,22 @@ def parse_args():
                         help='Specific value for filtering '
                              '(e.g. ".txt" for extension or'
                              ' "2023-10-21" for date)')
+    parser.add_argument('-i', '--interactive', action='store_true',
+                        help='Launch interactive UI')
     return parser.parse_args()
 
 
 class Main:
     def __init__(self):
         self.args = parse_args()
+
+        if self.args.interactive:
+            curses.wrapper(ui.main)
+            return
+        else:
+            self.run_cli()
+
+    def run_cli(self):
         self.du = du.DU(self.args.path)
         main_walk = os.walk(self.args.path)
         num_files = sum([len(files) for r, d, files in main_walk])
@@ -35,7 +48,7 @@ class Main:
         filter_by = None
         if self.args.filter and self.args.value:
             filter_by = (self.args.filter, self.args.value)
-        self.du.get_contents(sort_by='file_count', group_by=self.args.group,
+        self.du.get_contents_print(sort_by='file_count', group_by=self.args.group,
                              filter_by=filter_by)
 
 
