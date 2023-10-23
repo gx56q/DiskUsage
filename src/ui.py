@@ -120,7 +120,7 @@ class UI:
             y_position = i + 3
             if y_position >= curses.LINES - 1:
                 break
-            if isinstance(entry, str):  # This is a group name
+            if isinstance(entry, str):
                 self.stdscr.addstr(y_position, 0, entry, curses.A_BOLD)
                 continue
             format_str = format_entry(entry)
