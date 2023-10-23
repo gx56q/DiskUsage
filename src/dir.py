@@ -1,7 +1,6 @@
-# TODO: change to from os import path, stat
 import os
 from pwd import getpwuid
-import file
+from src import file
 
 
 class Dir:
@@ -29,9 +28,7 @@ class Dir:
         return self.files_count
 
     def get_dirs_count(self):
-        for d in self.dirs.values():
-            self.files_count += d.get_dirs_count()
-        return self.files_count
+        return self .dirs.__len__()
 
     def add_file(self, file_to_add):
         f = file.File(file_to_add)
