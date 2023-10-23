@@ -58,7 +58,7 @@ def format_entry(entry):
 
 class UI:
     def __init__(self, stdscr, initial_path="."):
-        self.valid_types = ["extension", "size", "file count",
+        self.valid_types = ["extension", "size", "file_count",
                             "date_created", "date_modified", "owner",
                             "nesting"]
         self.current_grouping = None
@@ -102,7 +102,8 @@ class UI:
 
         entries_to_display = []
 
-        if self.current_grouping is not None:
+        if self.current_grouping is not None \
+                and self.current_du.grouped_contents:
             for group_name, entries in \
                     self.current_du.grouped_contents.items():
                 entries_to_display.append(f"Group: {group_name}")
@@ -216,7 +217,8 @@ class UI:
             self.refresh_screen()
 
     def get_display_entries(self):
-        if self.current_grouping is not None:
+        if self.current_grouping is not None \
+                and self.current_du.grouped_contents:
             entries_to_display = []
             for group_name, entries in \
                     self.current_du.grouped_contents.items():
