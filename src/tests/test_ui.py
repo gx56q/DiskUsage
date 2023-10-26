@@ -129,7 +129,7 @@ class TestUI(unittest.TestCase):
         for option, values in options:
             stdscr_mock.addstr.assert_any_call(y_position, 0,
                                                f"{option} {values}",
-                                               curses_mock.A_BOLD)
+                                               curses_mock.A_DIM)
             y_position += 1
 
 
@@ -152,7 +152,6 @@ class TestUINavigate(unittest.TestCase):
         self.stdscr_mock.getch.return_value = ord('q')
         self.ui_instance.navigate()
         self.stdscr_mock.getch.assert_called_once()
-
 
 
 if __name__ == '__main__':

@@ -1,5 +1,7 @@
 import unittest
 import os
+
+from src import utils
 from src.file import File
 
 
@@ -16,7 +18,8 @@ class TestFile(unittest.TestCase):
         self.assertEqual(file_obj.extension, ".txt")
         self.assertEqual(file_obj.last_modified,
                          os.path.getmtime(self.VALID_PATH))
-        self.assertEqual(file_obj.created, os.path.getctime(self.VALID_PATH))
+        self.assertEqual(file_obj.created,
+                         utils.creation_date(self.VALID_PATH))
         self.assertEqual(file_obj.files_count, None)
 
     def test_invalid_file_initialization(self):

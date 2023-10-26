@@ -1,5 +1,6 @@
 import os
 from pwd import getpwuid
+from src import utils
 
 
 class File:
@@ -12,7 +13,7 @@ class File:
         self.extension = os.path.splitext(path)[1]
         self.level = os.path.dirname(self.path).count(os.sep)
         self.last_modified = os.path.getmtime(self.path)
-        self.created = os.path.getctime(self.path)
+        self.created = utils.creation_date(self.path)
         self.owner = getpwuid(os.stat(self.path).st_uid).pw_name
         self.files_count = None
 
